@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube AI Summarizer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <h1>YouTube AI Summarizer</h1>
+        <p>
+          Paste a YouTube link and get key points, a short summary, and main
+          topics using AI.
+        </p>
+      </header>
+
+      <main class="app-main">
+        <section class="card">
+          <h2>Summarize a YouTube Video</h2>
+          <label for="youtube-url" class="label">YouTube URL</label>
+          <input
+            id="youtube-url"
+            type="url"
+            placeholder="https://www.youtube.com/watch?v=..."
+          />
+          <button id="summarize-btn">Summarize Video</button>
+          <p id="status" class="status"></p>
+        </section>
+
+        <section class="card card-results">
+          <h2>Summary</h2>
+          <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <span>Summarizing video…</span>
+          </div>
+
+          <div id="results" class="results hidden">
+            <div class="result-section">
+              <h3>Key Points</h3>
+              <ul id="key-points"></ul>
+            </div>
+            <div class="result-section">
+              <h3>Short Summary</h3>
+              <p id="short-summary"></p>
+            </div>
+            <div class="result-section">
+              <h3>Topics</h3>
+              <div id="topics" class="topics"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <small>Backend: FastAPI, youtube-transcript-api, yt-dlp, AssemblyAI, OpenAI</small>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
+

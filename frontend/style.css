@@ -1,0 +1,245 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: radial-gradient(circle at top left, #fef3c7, #e0f2fe, #e9d5ff);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111827;
+}
+
+.app {
+  width: 100%;
+  max-width: 960px;
+  margin: 24px;
+  background-color: rgba(255, 255, 255, 0.96);
+  border-radius: 20px;
+  box-shadow: 0 22px 55px rgba(148, 163, 184, 0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(221, 214, 254, 0.9);
+}
+
+.app-header {
+  padding: 20px 24px 14px 24px;
+  border-bottom: 1px solid rgba(209, 213, 219, 0.7);
+  background: linear-gradient(
+    120deg,
+    rgba(254, 226, 226, 0.9),
+    rgba(219, 234, 254, 0.9),
+    rgba(221, 239, 253, 0.9)
+  );
+}
+
+.app-header h1 {
+  margin: 0 0 6px 0;
+  font-size: 1.6rem;
+  color: #111827;
+}
+
+.app-header p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.app-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px 16px 20px 16px;
+}
+
+@media (min-width: 900px) {
+  .app-main {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px 18px 14px 18px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 25px rgba(148, 163, 184, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card h2 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.card-results {
+  min-height: 260px;
+}
+
+.label {
+  display: block;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+input[type="url"] {
+  padding: 9px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  font-size: 0.95rem;
+  width: 100%;
+  outline: none;
+  background-color: #f9fafb;
+  color: #111827;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+input[type="url"]:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.4);
+  background-color: #ffffff;
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+button {
+  margin-top: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(to right, #a855f7, #ec4899);
+  color: white;
+  box-shadow: 0 10px 25px rgba(244, 114, 182, 0.6);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 35px rgba(168, 85, 247, 0.7);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.65);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.status {
+  min-height: 18px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.status--success {
+  color: #16a34a;
+}
+
+.status--error {
+  color: #b91c1c;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border-radius: 999px;
+  background-color: #fef3c7;
+  border: 1px solid #facc15;
+  font-size: 0.85rem;
+  color: #92400e;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(250, 204, 21, 0.5);
+  border-top-color: #f59e0b;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.result-section h3 {
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.result-section p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+#key-points {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.topic-pill {
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  background-color: #eef2ff;
+  color: #4c1d95;
+  border: 1px solid #c7d2fe;
+}
+
+.hidden {
+  display: none;
+}
+
+.app-footer {
+  padding: 10px 18px 14px 18px;
+  border-top: 1px solid rgba(209, 213, 219, 0.9);
+  background-color: #f9fafb;
+  text-align: right;
+}
+
+.app-footer small {
+  color: #6b7280;
+  font-size: 0.78rem;
+}
+
