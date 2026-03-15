@@ -8,7 +8,7 @@ from pydantic import BaseModel, HttpUrl
 from dotenv import load_dotenv
 
 from .transcript import get_transcript_for_youtube, TranscriptError
-from .summarizer import summarize_transcript_with_openai, SummarizationError
+from .summarizer import summarize_transcript_with_gemini, SummarizationError
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -47,12 +47,12 @@ def health() -> Dict[str, str]:
 @app.post("/summarize", response_model=SummaryResult)
 def summarize_video(payload: SummarizeRequest) -> SummaryResult:
     """
-    Full pipeline:
+    Pipeline:
     1. Accept a YouTube URL.
-    2. Try subtitles via youtube-transcript-api.
-    3. If not available, download audio with yt-dlp and send to AssemblyAI.
+    2. Fetch subtitles via youtube-transcript-api.
+    3. If no subs available, return error.
     4. Clean transcript text.
-    5. Summarize with OpenAI into key points, summary, topics.
+    5. Summarize with Gemini into key points, summary, topics.
     """
     youtube_url = str(payload.youtube_url)
 
@@ -67,7 +67,7 @@ def summarize_video(payload: SummarizeRequest) -> SummaryResult:
     cleaned = " ".join(transcript_text.split())
 
     try:
-        summary_data: Dict[str, Any] = summarize_transcript_with_openai(cleaned)
+        summary_data: Dict[str, Any] = summarize_transcript_with_gemini(cleaned)
     except SummarizationError as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
     except Exception as exc:  # pylint: disable=broad-except
@@ -83,5 +83,5 @@ def summarize_video(payload: SummarizeRequest) -> SummaryResult:
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 

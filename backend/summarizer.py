@@ -1,24 +1,24 @@
+import json
 import os
 from typing import Any, Dict, List
 
 from dotenv import load_dotenv
-import google.generativeai as genai
+import google.genai as genai
 
 
 load_dotenv()
 
-
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 
 if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+    pass  # API key will be used when creating client
 
 
 class SummarizationError(Exception):
     """Custom error for summarization-related problems."""
 
 
-def summarize_transcript_with_openai(transcript_text: str) -> Dict[str, Any]:
+def summarize_transcript_with_gemini(transcript_text: str) -> Dict[str, Any]:
     """
     Summarize the transcript text using Google Gemini.
 
@@ -41,18 +41,28 @@ def summarize_transcript_with_openai(transcript_text: str) -> Dict[str, Any]:
         "-----\n"
         f"{transcript_text}\n"
         "-----\n\n"
-        "Remember: respond with valid JSON only, no extra commentary."
+        "Respond with raw JSON only—no markdown code blocks (no ```), no extra text."
     )
 
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(prompt)
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
         content = response.text or ""
-    except Exception as exc:  # pylint: disable=broad-except
+    except Exception as exc:
         raise SummarizationError(f"Gemini API error: {exc}") from exc
 
-    # Try to parse JSON; fall back to a simple structure if parsing fails.
-    import json
+    # Strip markdown code blocks (e.g. ```json ... ``` or ``` ... ```)
+    content = content.strip()
+    if content.startswith("```"):
+        lines = content.split("\n")
+        if lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].strip() == "```":
+            lines = lines[:-1]
+        content = "\n".join(lines)
 
     try:
         data = json.loads(content)
@@ -69,4 +79,3 @@ def summarize_transcript_with_openai(transcript_text: str) -> Dict[str, Any]:
         "short_summary": short_summary,
         "topics": topics,
     }
-
