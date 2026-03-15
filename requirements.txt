@@ -3,3 +3,6 @@ uvicorn[standard]
 youtube-transcript-api
 python-dotenv
 google-genai
+yt-dlp
+openai-whisper
+ffmpeg-python
